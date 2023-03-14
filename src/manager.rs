@@ -5,6 +5,7 @@ use mongodb::{
     Database
 };
 use serde_json::{json, Value};
+use std::str::FromStr;
 
 pub struct Manager {
     db: Database
@@ -116,7 +117,6 @@ impl Manager{
         match collection.find_one(doc! {"username": format!("\"{}\"", username)}, None).await {
            Ok(res) => match res {
             Some(user) =>  {
-                println!("Found user: {:?}", user);
                 let mut friends: Vec<User> = vec![]; 
                         if let Ok(mut cursor) = collection.find(doc! {"_id": {"$in": user.friends}}, None).await {
                             let mut flag = true;
@@ -143,6 +143,39 @@ impl Manager{
             None => HttpResponse::NotFound().body(json!({"error": "There is no user with the supplied ID. Consider signing up first."}).to_string())
            },
            Err(_) => HttpResponse::InternalServerError().body(json!({"error": "The server had an error trying to execute mongodb::Collection.find_one()"}).to_string())
+        }
+    }
+
+    pub async fn notfriends(&self, request: Value) -> HttpResponse {
+        let collection = self.db.collection::<User>("users");
+        let mut exclude: Vec<ObjectId> = Vec::new();
+        match serde_json::from_value::<Value>(request["me"].clone()) {
+            Ok(me) => {
+                exclude.push(ObjectId::from_str(&me.to_string().replace('"', "")).unwrap());
+                match collection.find_one(doc!{"_id": ObjectId::from_str(&me.to_string().replace('"', "")).unwrap()}, None).await {
+                    Ok(res) => match res {
+                        Some(user) => {
+                            exclude.extend(user.friends);
+                            let mut notfriends: Vec<User> = vec![]; 
+                            if let Ok(mut cursor) = collection.find(doc! {"_id": {"$nin": exclude}}, None).await {
+                                let mut flag = true;
+                                while flag {
+                                    if let Ok(remains) = cursor.advance().await {
+                                        if !remains { flag = false; }
+                                        else {
+                                            if let Ok(notfriend) = cursor.deserialize_current() { notfriends.push(notfriend) }
+                                        }
+                                    }
+                                }
+                            };
+                            HttpResponse::Ok().body(json!({"results": notfriends}).to_string())
+                        },
+                        None => HttpResponse::NotFound().body(json!({"error": "There is no user with the supplied ID. Consider signing up first."}).to_string()),
+                    },
+                    Err(_) => HttpResponse::InternalServerError().body(json!({"error": ""}).to_string())
+                }
+            },
+            Err(_) => HttpResponse::NotAcceptable().body(json!({"error": "Request is missing the 'me' parameter"}).to_string()),
         }
     }
 }

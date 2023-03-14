@@ -14,6 +14,19 @@ async fn getuser(
     context.getuser(path.into_inner()).await
 }
 
+#[post("/notfriends")]
+async fn notfriends(context: web::Data<Manager>, req_body: String) -> impl Responder {
+    match serde_json::from_str(&req_body) {
+        Ok(data) => context.notfriends(data).await,
+        Err(_) => HttpResponse::NotAcceptable().body(
+            json!({
+                "error": "Failed to parse request. Make sure it is a valid JSON payload."
+            })
+            .to_string(),
+        ),
+    }
+}
+
 #[post("/signup")]
 async fn signup(context: web::Data<Manager>, req_body: String) -> impl Responder {
     match serde_json::from_str(&req_body) {
@@ -56,6 +69,7 @@ async fn main() -> std::io::Result<()> {
             .service(signup)
             .service(signin)
             .service(getuser)
+            .service(notfriends)
             .service(fs::Files::new("/", "./ui/build").index_file("index.html"))
     })
     .bind(("127.0.0.1", 7878))?
