@@ -1,4 +1,4 @@
-use actix_web::HttpResponse;
+use actix_web::{ HttpResponse };
 use types::users::User;
 use mongodb::{
     bson::{doc, oid::ObjectId},
@@ -338,5 +338,43 @@ impl Manager{
         }
         
     }
+
+    // searching
+    pub async fn search(&self, request: Value) -> HttpResponse {
+        let collection = self.db.collection::<User>("users");
+    
+        match serde_json::from_value::<Value>(request["query"].clone()) {
+            Ok(query) => {
+                // basically, this filter treats the entire query as a regular expression
+                // and performs a case insensitive search
+                // let query_regex = format!(".*{}.*", &query.to_string());
+                let mut cursor = collection.find(None, None).await.unwrap();
+
+                let mut result = vec![];
+                let query_lowercase = query.to_string().trim_matches('"').to_lowercase();
+                let mut flag = true;
+
+                while flag {
+                    if let Ok(remains) = cursor.advance().await {
+                        if !remains { flag = false; }
+                        else {
+                            if let Ok(user) = cursor.deserialize_current() {
+                                if user.name.to_lowercase().contains(&query_lowercase)
+                                || user.username.to_lowercase().contains(&query_lowercase)
+                                {
+                                    result.push(user);
+                                }
+                            }
+                        }
+                    }
+                };
+
+                println!("{:?}", result);
+                HttpResponse::Ok().body(json!({"results": result}).to_string())
+            },
+            Err(_) => HttpResponse::NotAcceptable().body(json!({"error": "Message is missing the 'query' parameter"}).to_string())
+        }
+    }
+    
     
 }
