@@ -14,6 +14,45 @@ async fn getuser(
     context.getuser(path.into_inner()).await
 }
 
+#[get("/mutual")]
+async fn mutual(context: web::Data<Manager>, req_body: String) -> impl Responder {
+    match serde_json::from_str(&req_body) {
+        Ok(data) => context.get_mutual_friends(data).await,
+        Err(_) => HttpResponse::NotAcceptable().body(
+            json!({
+                "error": "Failed to parse request. Make sure it is a valid JSON payload."
+            })
+            .to_string(),
+        ),
+    }
+}
+
+#[post("/friend")]
+async fn friend(context: web::Data<Manager>, req_body: String) -> impl Responder {
+    match serde_json::from_str(&req_body) {
+        Ok(data) => context.friend(data).await,
+        Err(_) => HttpResponse::NotAcceptable().body(
+            json!({
+                "error": "Failed to parse request. Make sure it is a valid JSON payload."
+            })
+            .to_string(),
+        ),
+    }
+}
+
+#[post("/unfriend")]
+async fn unfriend(context: web::Data<Manager>, req_body: String) -> impl Responder {
+    match serde_json::from_str(&req_body) {
+        Ok(data) => context.unfriend(data).await,
+        Err(_) => HttpResponse::NotAcceptable().body(
+            json!({
+                "error": "Failed to parse request. Make sure it is a valid JSON payload."
+            })
+            .to_string(),
+        ),
+    }
+}
+
 #[post("/notfriends")]
 async fn notfriends(context: web::Data<Manager>, req_body: String) -> impl Responder {
     match serde_json::from_str(&req_body) {
@@ -70,6 +109,9 @@ async fn main() -> std::io::Result<()> {
             .service(signin)
             .service(getuser)
             .service(notfriends)
+            .service(friend)
+            .service(unfriend)
+            .service(mutual)
             .service(fs::Files::new("/", "./ui/build").index_file("index.html"))
     })
     .bind(("127.0.0.1", 7878))?

@@ -178,4 +178,165 @@ impl Manager{
             Err(_) => HttpResponse::NotAcceptable().body(json!({"error": "Request is missing the 'me' parameter"}).to_string()),
         }
     }
+
+    // Friending management
+    pub async fn friend(&self, request: Value) -> HttpResponse {
+        let collection = self.db.collection::<User>("users");
+
+        match serde_json::from_value::<Value>(request["me"].clone()) {
+            Ok(me) => {
+                let my_id = ObjectId::from_str(&me.to_string().replace('"', "")).unwrap();
+                let my_doc = doc!{"_id":my_id};
+
+                match serde_json::from_value::<Value>(request["friend"].clone()) {
+                    Ok(friend) => {
+                        let friend_id = ObjectId::from_str(&friend.to_string().replace('"', "")).unwrap();
+
+                        match collection
+                        .find_one(doc! {"_id": my_id}, None)
+                        .await
+                    {
+                        Ok(Some(_)) => {
+
+                             // Check if the friend is already in the user's friend list
+                            if let Ok(Some(user)) = collection.find_one(my_doc.clone().clone(), None).await {
+                                if user.friends.contains(&friend_id) {
+                                    return HttpResponse::NotAcceptable().body(json!({"error": "Already friended"}).to_string());
+                                }
+                            }
+
+                            // Add friend to user's friend list
+                            if let Err(e) = collection.update_one(doc! {"_id": my_id}, doc! {"$push": {"friends": friend_id}}, None).await {
+                                println!("{:?}", e);
+                                return HttpResponse::InternalServerError().body(json!({"error": "The server had an error trying to execute mongodb::Collection.update_one() with user's doc"}).to_string());
+                            }
+
+                            // Add user to friend's friend list
+                            if let Err(_) = collection.update_one(doc! {"_id": friend_id}, doc! {"$push": {"friends": my_id}}, None).await {
+                               
+                                // rollback user's friend addition
+                                let _ = collection.update_one(doc! {"_id": my_id}, doc! {"$pull": {"friends": friend_id}}, None).await;
+                                return HttpResponse::InternalServerError().body(json!({"error": "The server had an error trying to execute mongodb::Collection.update_one() with friend's doc"}).to_string());
+                            }
+
+                            // Return updated friend list
+                            let updated_friends = if let Ok(Some(user)) = collection.find_one(doc! {"_id": my_id}, None).await {
+                                let mut friend_objs = vec![];
+                                if let Ok(mut cursor) = collection.find(doc! {"_id": {"$in": user.friends}}, None).await {
+                                    let mut flag = true;
+
+                                    while flag {
+                                        if let Ok(remains) = cursor.advance().await {
+                                            if !remains { flag = false; }
+                                            else {
+                                                if let Ok(friend_obj) = cursor.deserialize_current() {friend_objs.push(friend_obj)}
+                                            }
+                                        }
+                                    }
+                                }
+                                friend_objs
+                            } else {
+                                vec![]
+                            };
+
+                            HttpResponse::Ok().body(json!({
+                                "friends": updated_friends
+                            }).to_string())
+                        }
+                        Ok(None) => HttpResponse::NotFound().json(json!({
+                            "error": "There is no user with the supplied ID. Consider signing up first."
+                        })),
+                        Err(_) => HttpResponse::InternalServerError().json(json!({
+                            "error": "Failed to find user document"
+                        })),
+                    }
+                    },
+                    Err(_) => HttpResponse::NotAcceptable().body(json!({"error": "Request is missing the 'friend' parameter"}).to_string()),
+                }       
+            },
+            Err(_) => HttpResponse::NotAcceptable().body(json!({"error": "Request is missing the 'me' parameter"}).to_string()),
+        }
+    }
+
+    pub async fn unfriend(&self, request: Value) -> HttpResponse {
+        let collection = self.db.collection::<User>("users");
+
+        match serde_json::from_value::<Value>(request["me"].clone()) {
+            Ok(me) => {
+                match serde_json::from_value::<Value>(request["friend"].clone()) {
+                    Ok(friend) => {
+                        match collection.find_one_and_update(doc!{"_id": ObjectId::from_str(&me.to_string().replace('"', "")).unwrap()}, doc! {"$pull": {"friends": ObjectId::from_str(&friend.to_string().replace('"', "")).unwrap()}}, None).await {
+                            Ok(res) => {
+                                match res {
+                                    Some(_) => {
+                                        match collection.find_one_and_update(doc!{"_id": ObjectId::from_str(&friend.to_string().replace('"', "")).unwrap()}, doc! {"$pull": {"friends": ObjectId::from_str(&me.to_string().replace('"', "")).unwrap()}}, None).await {
+                                            Ok(_) => HttpResponse::Ok().body(json!({ "success": "Friend removed" }).to_string()),
+                                            Err(_) => {
+                                                // rollback like before
+                                                let _ = collection.update_one(doc! {"_id": ObjectId::from_str(&me.to_string().replace('"', "")).unwrap()}, doc! {"$pull": {"friends": ObjectId::from_str(&friend.to_string().replace('"', "")).unwrap()}}, None).await;
+                                                return HttpResponse::InternalServerError().body(json!({"error": "The server had an error trying to execute mongodb::Collection.update_one() with friend's doc"}).to_string());
+                                            }
+                                        }
+                                    },
+                                    None => HttpResponse::NotFound().body(json!({"error": "There is no user with the supplied ID. Consider signing up first."}).to_string())
+                                }
+                            },
+                            Err(_) => HttpResponse::InternalServerError().body(json!({"error": "The server had an error trying to execute mongodb::Collection.find_one_and_update()"}).to_string())
+                        }
+                    },
+                    Err(_) => HttpResponse::NotAcceptable().body(json!({"error": "Request is missing the 'friend' parameter"}).to_string()),
+                }       
+            },
+            Err(_) => HttpResponse::NotAcceptable().body(json!({"error": "Request is missing the 'me' parameter"}).to_string()),
+        }
+    }
+
+    // Mutual friends
+    pub async fn get_mutual_friends(&self, request: Value) -> HttpResponse {
+        let collection = self.db.collection::<User>("users");
+
+        match serde_json::from_value::<Value>(request["user1"].clone()) {
+            Ok(one) => {
+                match serde_json::from_value::<Value>(request["user2"].clone()) {
+                    Ok(two) => {
+                        match collection.find_one(doc! {"_id": ObjectId::from_str(&one.to_string().replace('"', "")).unwrap()}, None).await {
+                            Ok(res) => match res {
+                                Some(user1) => {
+                                    match collection.find_one(doc! {"_id": ObjectId::from_str(&two.to_string().replace('"', "")).unwrap()}, None).await {
+                                        Ok(res) => match res {
+                                            Some(user2) => {
+                                                let user1_friends = &user1.friends;
+                                                let user2_friends = &user2.friends;
+                                                let mut mutual_friends: Vec<User> = Vec::new();
+                                                for friend_id in user1_friends {
+                                                    if user2_friends.contains(friend_id) {
+                                                        match collection.find_one(doc! {"_id": friend_id}, None).await {
+                                                            Ok(res) => match res {
+                                                                Some(user) => mutual_friends.push(user),
+                                                                None => continue,
+                                                            },
+                                                            Err(_) => return HttpResponse::InternalServerError().body(json!({"error": "Error finding mutual friends"}).to_string()),
+                                                        };
+                                                    }
+                                                }
+                                                HttpResponse::Ok().body(json!({"mutual_friends": mutual_friends}).to_string())
+                                            },
+                                            None => return HttpResponse::NotFound().body(json!({"error": "There is no user 2 with the supplied ID. Consider signing up first."}).to_string()),
+                                        },
+                                        Err(_) => return HttpResponse::InternalServerError().body(json!({"error": "Error finding User1"}).to_string()),
+                                    }
+                                },
+                                None => return HttpResponse::NotFound().body(json!({"error": "There is no user 1 with the supplied ID. Consider signing up first."}).to_string()),
+                            },
+                            Err(_) => return HttpResponse::InternalServerError().body(json!({"error": "Error finding User1"}).to_string()),
+                        }
+                    },
+                    Err(_) => HttpResponse::NotAcceptable().body(json!({"error": "Request is missing the 'user2' parameter"}).to_string()),
+                }       
+            },
+            Err(_) => HttpResponse::NotAcceptable().body(json!({"error": "Request is missing the 'user2' parameter"}).to_string()),
+        }
+        
+    }
+    
 }
