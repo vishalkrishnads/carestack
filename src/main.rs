@@ -2,18 +2,28 @@ mod manager;
 
 pub use crate::manager::Manager;
 use actix_files as fs;
-use actix_web::{get, post, web, App, HttpResponse, HttpServer, Responder};
+use actix_web::{get, post, web, web::Path, App, HttpRequest, HttpResponse, HttpServer, Responder};
 use mongodb::{options::ClientOptions, Client};
 use serde_json::json;
 
+#[get("/user/{username}")]
+async fn getuser(
+    context: web::Data<Manager>,
+    path: Path<String>,
+) -> impl Responder {
+    context.getuser(path.into_inner()).await
+}
+
 #[post("/signup")]
 async fn signup(context: web::Data<Manager>, req_body: String) -> impl Responder {
-    println!("Started signup");
-     match serde_json::from_str(&req_body) {
+    match serde_json::from_str(&req_body) {
         Ok(data) => context.signup(data).await,
-        Err(_) => HttpResponse::NotAcceptable().body(json!({
-            "error": "Failed to parse request. Make sure it is a valid JSON payload."
-        }).to_string())
+        Err(_) => HttpResponse::NotAcceptable().body(
+            json!({
+                "error": "Failed to parse request. Make sure it is a valid JSON payload."
+            })
+            .to_string(),
+        ),
     }
 }
 
@@ -21,14 +31,18 @@ async fn signup(context: web::Data<Manager>, req_body: String) -> impl Responder
 async fn signin(context: web::Data<Manager>, req_body: String) -> impl Responder {
     match serde_json::from_str(&req_body) {
         Ok(data) => context.signin(data).await,
-        Err(_) => HttpResponse::NotAcceptable().body(json!({
-            "error": "Failed to parse request. Make sure it is a valid JSON payload."
-        }).to_string())
+        Err(_) => HttpResponse::NotAcceptable().body(
+            json!({
+                "error": "Failed to parse request. Make sure it is a valid JSON payload."
+            })
+            .to_string(),
+        ),
     }
 }
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
+
     let mut client_options = ClientOptions::parse("mongodb://localhost:8080/")
         .await
         .unwrap();
@@ -41,6 +55,7 @@ async fn main() -> std::io::Result<()> {
             .app_data(web::Data::new(Manager::start(database.clone())))
             .service(signup)
             .service(signin)
+            .service(getuser)
             .service(fs::Files::new("/", "./ui/build").index_file("index.html"))
     })
     .bind(("127.0.0.1", 7878))?
