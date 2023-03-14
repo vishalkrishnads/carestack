@@ -107,7 +107,11 @@ async fn signin(context: web::Data<Manager>, req_body: String) -> impl Responder
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    let mut client_options = ClientOptions::parse("mongodb://localhost:8080/")
+
+    let server_port = 7878;
+    let db_port = 8000;
+
+    let mut client_options = ClientOptions::parse(format!("mongodb://localhost:{}/", db_port))
         .await
         .unwrap();
     client_options.app_name = Some("carestack".to_string());
@@ -127,7 +131,7 @@ async fn main() -> std::io::Result<()> {
             .service(mutual)
             .service(fs::Files::new("/", "./ui/build").index_file("index.html"))
     })
-    .bind(("127.0.0.1", 7878))?
+    .bind(("127.0.0.1", server_port))?
     .run()
     .await
 }
