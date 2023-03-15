@@ -25,6 +25,11 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>CareStack</title>
+    <script type="text/javascript">
+      window.onbeforeunload = function() {
+          return "With this version, if you reload manually, the app may crash. Try using the refresh button instead";
+      }
+  </script>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
