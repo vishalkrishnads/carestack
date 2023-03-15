@@ -9,7 +9,7 @@ use actix_web::{
 use mongodb::{options::ClientOptions, Client};
 use serde_json::json;
 
-#[post("/search")]
+#[post("/api/search")]
 async fn search(context: web::Data<Manager>, req_body: String) -> impl Responder{
     match serde_json::from_str(&req_body) {
         Ok(data) => context.search(data).await,
@@ -22,12 +22,12 @@ async fn search(context: web::Data<Manager>, req_body: String) -> impl Responder
     }
 }
 
-#[get("/user/{username}")]
+#[get("/api/user/{username}")]
 async fn getuser(context: web::Data<Manager>, path: Path<String>) -> impl Responder {
     context.getuser(path.into_inner()).await
 }
 
-#[get("/mutual")]
+#[get("/api/mutual")]
 async fn mutual(context: web::Data<Manager>, req_body: String) -> impl Responder {
     match serde_json::from_str(&req_body) {
         Ok(data) => context.get_mutual_friends(data).await,
@@ -40,7 +40,7 @@ async fn mutual(context: web::Data<Manager>, req_body: String) -> impl Responder
     }
 }
 
-#[post("/friend")]
+#[post("/api/friend")]
 async fn friend(context: web::Data<Manager>, req_body: String) -> impl Responder {
     match serde_json::from_str(&req_body) {
         Ok(data) => context.friend(data).await,
@@ -53,7 +53,7 @@ async fn friend(context: web::Data<Manager>, req_body: String) -> impl Responder
     }
 }
 
-#[post("/unfriend")]
+#[post("/api/unfriend")]
 async fn unfriend(context: web::Data<Manager>, req_body: String) -> impl Responder {
     match serde_json::from_str(&req_body) {
         Ok(data) => context.unfriend(data).await,
@@ -79,7 +79,7 @@ async fn notfriends(context: web::Data<Manager>, req_body: String) -> impl Respo
     }
 }
 
-#[post("/signup")]
+#[post("/api/signup")]
 async fn signup(context: web::Data<Manager>, req_body: String) -> impl Responder {
     match serde_json::from_str(&req_body) {
         Ok(data) => context.signup(data).await,
@@ -92,7 +92,7 @@ async fn signup(context: web::Data<Manager>, req_body: String) -> impl Responder
     }
 }
 
-#[post("/signin")]
+#[post("/api/signin")]
 async fn signin(context: web::Data<Manager>, req_body: String) -> impl Responder {
     match serde_json::from_str(&req_body) {
         Ok(data) => context.signin(data).await,
@@ -105,7 +105,7 @@ async fn signin(context: web::Data<Manager>, req_body: String) -> impl Responder
     }
 }
 
-#[post("/updatebio")]
+#[post("/api/updatebio")]
 async fn update_bio(context: web::Data<Manager>, req_body: String) -> impl Responder {
     match serde_json::from_str(&req_body) {
         Ok(data) => context.update_bio(data).await,
