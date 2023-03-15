@@ -105,11 +105,24 @@ async fn signin(context: web::Data<Manager>, req_body: String) -> impl Responder
     }
 }
 
+#[post("/updatebio")]
+async fn update_bio(context: web::Data<Manager>, req_body: String) -> impl Responder {
+    match serde_json::from_str(&req_body) {
+        Ok(data) => context.update_bio(data).await,
+        Err(_) => HttpResponse::NotAcceptable().body(
+            json!({
+                "error": "Failed to parse request. Make sure it is a valid JSON payload."
+            })
+            .to_string(),
+        ),
+    }
+}
+
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
 
     let server_port = 7878;
-    let db_port = 8000;
+    let db_port = 8080;
 
     let mut client_options = ClientOptions::parse(format!("mongodb://localhost:{}/", db_port))
         .await
@@ -129,6 +142,7 @@ async fn main() -> std::io::Result<()> {
             .service(friend)
             .service(unfriend)
             .service(mutual)
+            .service(update_bio)
             .service(fs::Files::new("/", "./ui/build").index_file("index.html"))
     })
     .bind(("127.0.0.1", server_port))?

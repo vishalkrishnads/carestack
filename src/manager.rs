@@ -56,6 +56,7 @@ impl Manager{
                                 username: user.username,
                                 password: user.password,
                                 email: user.email,
+                                bio: String::new(),
                                 friends: Vec::new()
                             }, None).await {
                                 Ok(data) => HttpResponse::Ok().body(json!({"success": "Successfully signed up user", "uid": data.inserted_id}).to_string()),
@@ -101,6 +102,7 @@ impl Manager{
                             "name": data.name,
                             "username": data.username,
                             "email": data.email,
+                            "bio": data.bio,
                             "friends": friends
                         }).to_string())
                      }
@@ -109,6 +111,26 @@ impl Manager{
             },
             Err(_) => HttpResponse::InternalServerError().body(json!({"error": "There was an error when trying to execute mongodb::collection.find_one()"}).to_string())
         }
+    }
+
+    pub async fn update_bio(&self, request: Value) -> HttpResponse {
+        let collection = self.db.collection::<User>("users");
+
+        match serde_json::from_value::<Value>(request["id"].clone()) {
+            Ok(id) => {
+                match serde_json::from_value::<Value>(request["bio"].clone()) {
+                    Ok(bio) => {
+                        match collection.update_one(doc!{"_id": ObjectId::from_str(&id.to_string().replace('"', "")).unwrap()}, doc!{"$set": {"bio": bio.to_string()}}, None).await {
+                            Ok(_) => HttpResponse::Ok().body(json!({"success": "New bio saved!"}).to_string()),
+                            Err(_) => HttpResponse::InternalServerError().body(json!({"error": "Server encountered an error when trying to execute mongodb::collection.update_one()"}).to_string())
+                        }
+                    },
+                    Err(_) => HttpResponse::NotAcceptable().body(json!({"error": "Request is missing the 'bio' parameter"}).to_string())
+                }
+            },
+            Err(_) => HttpResponse::NotAcceptable().body(json!({"error": "Request is missing the 'id' parameter"}).to_string())
+        }
+
     }
 
     // profile viewing
@@ -137,6 +159,7 @@ impl Manager{
                     "name": user.name,
                     "username": user.username,
                     "email": user.email,
+                    "bio": user.bio,
                     "friends": friends
                 }).to_string())
             },

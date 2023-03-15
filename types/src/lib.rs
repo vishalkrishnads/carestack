@@ -11,6 +11,7 @@ pub mod users {
         pub username: String,
         pub password: String,
         pub email: String,
+        pub bio: String,
         pub friends: Vec<ObjectId>
     }
 
@@ -33,6 +34,7 @@ pub mod users {
                 username: values[1].clone(),
                 password: values[2].clone(),
                 email: values[3].clone(),
+                bio: String::new(),
                 friends: Vec::new()
             }
         }
