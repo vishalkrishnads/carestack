@@ -3,7 +3,8 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import SignUp from './pages/SignUp/SignUp'
-import Login from './pages/Login/Login'
+import SignIn from './pages/Login/Login'
+import Home from './pages/Home/Home'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import AuthCheck from './pages/AuthCheck/AuthCheck';
 
@@ -17,7 +18,8 @@ root.render(
         <Route path='/' exact element={<App />}>
           <Route path='/' exact element={<AuthCheck />} />
           <Route path='/signup' exact element={<SignUp />} />
-          <Route path='/login' exact element={<Login />} />
+          <Route path='/signin' exact element={<SignIn />} />
+          <Route path='/home' exact element={<Home />} />
         </Route>
       </Routes>
   </BrowserRouter>
