@@ -1,16 +1,14 @@
 mod manager;
 
-
 pub use crate::manager::Manager;
+use actix_cors::Cors;
 use actix_files as fs;
-use actix_web::{
-    get, post, web, web::Path, App, HttpResponse, HttpServer, Responder,
-};
+use actix_web::{get, post, web, web::Path, App, HttpResponse, HttpServer, Responder};
 use mongodb::{options::ClientOptions, Client};
 use serde_json::json;
 
 #[post("/api/search")]
-async fn search(context: web::Data<Manager>, req_body: String) -> impl Responder{
+async fn search(context: web::Data<Manager>, req_body: String) -> impl Responder {
     match serde_json::from_str(&req_body) {
         Ok(data) => context.search(data).await,
         Err(_) => HttpResponse::NotAcceptable().body(
@@ -120,7 +118,6 @@ async fn update_bio(context: web::Data<Manager>, req_body: String) -> impl Respo
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-
     let server_port = 7878;
     let db_port = 8080;
 
@@ -132,7 +129,15 @@ async fn main() -> std::io::Result<()> {
     let database = client.database("carestack");
     // Create Actix web server
     HttpServer::new(move || {
+
+        // CORS for development only
+        let cors = Cors::default()
+            .allow_any_origin()
+            .allowed_methods(vec!["GET", "POST"])
+            .max_age(3600);
+
         App::new()
+            .wrap(cors)
             .app_data(web::Data::new(Manager::start(database.clone())))
             .service(search)
             .service(signup)
