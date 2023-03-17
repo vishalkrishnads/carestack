@@ -64,7 +64,7 @@ async fn unfriend(context: web::Data<Manager>, req_body: String) -> impl Respond
     }
 }
 
-#[post("/notfriends")]
+#[post("/api/notfriends")]
 async fn notfriends(context: web::Data<Manager>, req_body: String) -> impl Responder {
     match serde_json::from_str(&req_body) {
         Ok(data) => context.notfriends(data).await,
