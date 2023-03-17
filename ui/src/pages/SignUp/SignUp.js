@@ -62,13 +62,13 @@ const SignUp = () => {
             <h1>Welcome</h1>
             <h2>Enter your details to get started</h2>
         </div>
-        <div style={{ flex: 4, width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }} >
+        <div className='box' style={{ flex: 4, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }} >
             <Field value={name} onChangeText={value => setName(value)} onSubmit={() => refs[0].current.focus()} placeholder={'Name'} />
             <Field value={username} reference={refs[0]} onChangeText={value => setUserName(value)} onSubmit={() => refs[1].current.focus()} placeholder={'Username'} />
             <Field value={email} reference={refs[1]} onChangeText={value => setEmail(value)} onSubmit={() => refs[2].current.focus()} placeholder={'Email address'} />
             <Field value={password} reference={refs[2]} onChangeText={value => setPassword(value)} onSubmit={submit} placeholder={'Password'} />
         </div>
-        <div style={{ flex: 2, width: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }} >
+        <div className='box' style={{ flex: 2, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }} >
             <Button onPress={submit} label={'Sign Up'} />
             <p>Already have an account? <Link to="/signin" >Sign In</Link></p>
             <Alert content={alert} onDismiss={() => setAlert('')} />

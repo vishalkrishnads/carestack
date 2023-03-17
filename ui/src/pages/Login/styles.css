@@ -6,6 +6,10 @@
     flex-direction: column;
 }
 
+.login>.box {
+    width: 100%;
+}
+
 .login h1 {
     font-size: xx-large;
 }
@@ -35,5 +39,9 @@
 @media only screen and (max-width: 500px) {
     .login h2 {
         font-size: medium;
+    }
+
+    .login > .box {
+        width: 80%;
     }
 }

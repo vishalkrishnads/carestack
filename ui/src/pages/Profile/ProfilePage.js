@@ -26,7 +26,7 @@ const Profile = () => {
                 else {
                     let temp = []
                     for (const each of JSON.parse(data).friends) {
-                        if(each.username.replace(/^"|"$/g, '') === handle) setFriend(true)
+                        if (each.username.replace(/^"|"$/g, '') === handle) setFriend(true)
                         temp.push(each._id["$oid"])
                     }
                     setMe({
@@ -60,7 +60,7 @@ const Profile = () => {
         refresh()
     }, [location])
 
-    const onFriendAction = async() => {
+    const onFriendAction = async () => {
         try {
             const response = await fetch(`${defaults.BASE_URL}${isFriend ? defaults.endpoints.unfriend : defaults.endpoints.friend}`, {
                 method: 'POST',
@@ -71,7 +71,7 @@ const Profile = () => {
                 })
             });
 
-            if (response.ok) setFriend(prev => !prev) 
+            if (response.ok) setFriend(prev => !prev)
             else {
                 const errorBody = await response.json();
                 throw new Error(errorBody.error);
@@ -105,7 +105,7 @@ const Profile = () => {
                     <h3 id='header'>{creds.name ? `${creds.name.split(" ")[0]}'s friends` : 'Friends'}</h3>
                 </div>
                 <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
-                    <h3 id='browse' onClick={() => navigate('/notfriends')} style={{ color: '#086868' }}>View mutual {'>'}</h3>
+                    <h3 id='browse' onClick={() => navigate('/mutual', {state: creds})} style={{ color: '#086868' }}>View mutual {'>'}</h3>
                 </div>
             </div>
             {friends.length > 0 ? <div className='list'>

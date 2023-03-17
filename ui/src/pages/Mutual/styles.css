@@ -1,0 +1,84 @@
+.mutual {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.mutual>.contestants {
+    flex: 2;
+    display: flex;
+}
+
+.mutual>.info {
+    flex: 1;
+    width: 70%;
+    align-self: center;
+    display: flex;
+}
+
+.mutual>.mutuals {
+    flex: 4;
+    overflow: auto;
+    width: 70%;
+    align-self: center;
+}
+
+.mutual>.contestants>.margin {
+    flex: 0.5
+}
+
+.mutual>.contestants>.user {
+    flex: 2;
+    display: flex;
+}
+
+.mutual>.contestants>.user .pic {
+    background-color: #086868;
+    height: 10vh;
+    width: 10vh;
+    border-radius: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.mutual>.contestants>.user .pic p {
+    font-size: 6vh;
+}
+
+.mutual>.contestants>.user h2 {
+    font-size: 2vh;
+}
+
+.mutual>.contestants>.user h3 {
+    font-size: 1.5vh;
+    color: grey;
+}
+
+.mutual>.contestants>.user h4 {
+    font-size: 1.5vh;
+    color: #086868
+}
+
+.mutual>.contestants>.user h4:hover {
+    cursor: pointer;
+    font-family: 'Poppins-Bold';
+}
+
+@media only screen and (max-width: 800px) {
+    
+    .mutual>.contestants {
+        flex-direction: column;
+        flex: 2;
+    }
+    
+    .mutual>.contestants>.margin {
+        flex: 0;
+    }
+
+    .mutual>.info>h2 {
+        font-size: 5vw;
+    }
+    
+}

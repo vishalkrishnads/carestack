@@ -6,6 +6,10 @@
     flex-direction: column;
 }
 
+.signup > .box {
+    width: 100%;
+}
+
 .signup h1 {
     font-size: xx-large;
 }
@@ -47,5 +51,9 @@
 @media only screen and (max-width: 500px) {
     .signup h2 {
         font-size: medium;
+    }
+
+    .signup > .box {
+        width: 80%;
     }
 }

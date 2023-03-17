@@ -25,7 +25,7 @@ async fn getuser(context: web::Data<Manager>, path: Path<String>) -> impl Respon
     context.getuser(path.into_inner()).await
 }
 
-#[get("/api/mutual")]
+#[post("/api/mutual")]
 async fn mutual(context: web::Data<Manager>, req_body: String) -> impl Responder {
     match serde_json::from_str(&req_body) {
         Ok(data) => context.get_mutual_friends(data).await,

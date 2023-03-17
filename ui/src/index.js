@@ -10,6 +10,7 @@ import AuthCheck from './pages/AuthCheck/AuthCheck';
 import NotFriends from './pages/NotFriends/NotFriends';
 import Find from './pages/Find/Find';
 import Profile from './pages/Profile/ProfilePage'
+import Mutual from './pages/Mutual/Mutual'
 
 const root = ReactDOM.createRoot(
   document.getElementById('root')
@@ -26,6 +27,7 @@ root.render(
         <Route path='/notfriends' exact element={<NotFriends />} />
         <Route path='/search' exact element={<Find />} />
         <Route path='/profile/:handle' element={<Profile />} />
+        <Route path='/mutual' element={<Mutual />} />
       </Route>
     </Routes>
   </BrowserRouter>

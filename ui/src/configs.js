@@ -7,6 +7,7 @@ export default {
         friend: '/api/friend',
         unfriend: '/api/unfriend',
         getProfile: '/api/user',
-        search: '/api/search'
+        search: '/api/search',
+        mutual: '/api/mutual'
     }
 }
