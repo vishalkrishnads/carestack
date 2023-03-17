@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Link, useNavigate, useLocation } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import Button from '../../components/Button/Button'
 import Field from '../../components/Field/Field'
 import Alert from '../../components/Alert/Alert'
@@ -14,7 +14,6 @@ const SignIn = () => {
 
     const ref = React.useRef(null)
     const navigate = useNavigate();
-    const location = useLocation();
 
     const submit = async () => {
         if (!id || !password) {
@@ -54,8 +53,7 @@ const SignIn = () => {
     React.useEffect(() => {
         if (typeof (Storage) !== "undefined") {
             let data = localStorage.getItem("carestack_creds");
-            if (data !== null || data !== undefined) navigate('/home')
-            else console.log('Empty')
+            if (data != null || data != undefined) navigate('/home')
         } else {
             setAlert('Sorry. The project likely wont run on this browser because its too old. Please try with a newer version.')
         }

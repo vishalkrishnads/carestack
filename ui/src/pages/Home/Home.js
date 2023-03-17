@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { useNavigate, useLocation } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import Friend from '../../components/Friend/Friend'
 import Alert from '../../components/Alert/Alert'
 import defaults from '../../configs'
@@ -10,10 +10,10 @@ const Home = () => {
     const [creds, setCreds] = React.useState({})
     const [friends, setFriends] = React.useState([])
     const [alert, setAlert] = React.useState('')
+    const [bio, setBio] = React.useState('')
     const navigate = useNavigate();
-    const location = useLocation();
 
-    const refresh = async(username) => {
+    const refresh = async (username) => {
         try {
             const response = await fetch(`${defaults.BASE_URL}${defaults.endpoints.getProfile}/${username || creds.username}`, {
                 method: 'GET',
@@ -31,6 +31,7 @@ const Home = () => {
                     friends: json.friends
                 }))
                 setFriends(json.friends)
+                setBio(json.bio.replace(/^"|"$/g, ''))
             } else {
                 const errorBody = await response.json();
                 throw new Error(errorBody.error);
@@ -50,9 +51,9 @@ const Home = () => {
         } else {
             setAlert('Sorry. The project likely wont run on this browser because its too old. Please try with a newer version.')
         }
-    }, [location])
+    }, [navigate])
 
-    const unfriend = async(friend) => {
+    const unfriend = async (friend) => {
         try {
             const response = await fetch(`${defaults.BASE_URL}${defaults.endpoints.unfriend}`, {
                 method: 'POST',
@@ -64,11 +65,30 @@ const Home = () => {
             });
 
             if (response.ok) {
-                const json = await response.json();
                 setFriends(prevState => prevState.filter(item => item !== friend))
             } else {
                 const errorBody = await response.json();
                 throw new Error(errorBody.error);
+            }
+        } catch (error) { setAlert(error.message) }
+    }
+
+    const updatebio = async (value) => {
+        try {
+            const response = await fetch(`${defaults.BASE_URL}${defaults.endpoints.bio}`, {
+                method: 'POST',
+                headers: new Headers(),
+                body: JSON.stringify({
+                    "id": creds._id,
+                    "bio": value
+                })
+            });
+
+            if (response.ok) {
+            } else {
+                const errorBody = await response.json();
+                throw new Error(errorBody.error);
+                setBio('')
             }
         } catch (error) { setAlert(error.message) }
     }
@@ -92,7 +112,7 @@ const Home = () => {
             <div className='details'>
                 <h1>{creds.name}</h1>
                 <h2>{creds.username}</h2>
-                <textarea placeholder='Add a bio' className='bio' />
+                <textarea value={bio} onInput={event => { setBio(event.target.value); updatebio(event.target.value) }} placeholder='Add a bio' className='bio' />
                 <h3 onClick={logout}>Sign Out</h3>
             </div>
         </div>
@@ -111,8 +131,8 @@ const Home = () => {
                 })}
             </div> : <div className='list empty' >
                 <p>Nothing to show here</p>
-                </div>}
-                <Alert content={alert} onDismiss={() => setAlert('')} />
+            </div>}
+            <Alert content={alert} onDismiss={() => setAlert('')} />
         </div>
     </div>
 }
