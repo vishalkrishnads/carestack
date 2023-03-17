@@ -7,6 +7,7 @@ import SignIn from './pages/Login/Login'
 import Home from './pages/Home/Home'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import AuthCheck from './pages/AuthCheck/AuthCheck';
+import NotFriends from './pages/NotFriends/NotFriends';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root')
@@ -20,6 +21,7 @@ root.render(
         <Route path='/signup' exact element={<SignUp />} />
         <Route path='/signin' exact element={<SignIn />} />
         <Route path='/home' exact element={<Home />} />
+        <Route path='/notfriends' exact element={<NotFriends />} />
       </Route>
     </Routes>
   </BrowserRouter>
