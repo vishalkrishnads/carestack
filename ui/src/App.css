@@ -4,13 +4,22 @@
     url("./fonts/Poppins-Regular.ttf") format("truetype");
 }
 
+@font-face {
+  font-family: "Poppins-Bold";
+  src: local("Poppins-Bold"),
+    url("./fonts/Poppins-Bold.ttf") format("truetype");
+}
+
 body {
   margin: 0px;
   font-family: 'Poppins';
   color: white;
 }
 
-h1, h2, h3, h4 {
+h1,
+h2,
+h3,
+h4 {
   margin-block: 0em;
 }
 
@@ -21,14 +30,21 @@ a {
 }
 
 .App {
-    text-align: center;
-    background-color: #17312F;
-    height: 100vh;
-    display: flex;
-    flex-direction: row;
+  text-align: center;
+  background-color: #17312F;
+  height: 100vh;
+  display: flex;
+  flex-direction: row;
+  overflow: hidden;
 }
 
-.header, .footer, .content {
+.App>.margin {
+  flex: 2
+}
+
+.header,
+.footer,
+.content {
   position: absolute;
   width: 70%
 }
@@ -53,4 +69,32 @@ a {
   top: 100px;
   bottom: 50px;
   display: flex;
+  overflow: auto;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px #17312F;
+  border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #086868;
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #054747;
+}
+
+@media only screen and (max-width: 800px) {
+  .App>.margin {
+    flex: 0;
+  }
 }

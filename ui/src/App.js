@@ -1,13 +1,14 @@
 import * as React from 'react'
 import './App.css';
 import './fonts/Poppins-Regular.ttf';
+import './fonts/Poppins-Bold.ttf'
 
 import { Outlet } from "react-router-dom";
 
 function App() {
   return (
     <div className="App">
-      <div style={{ flex: 2 }} />
+      <div className='margin' />
       <div style={{ flex: 10, display: 'flex', justifyContent: 'center', alignItems: 'center' }} >
         <div className='header'>
           <div style={{ flex: 1 }} />
@@ -24,7 +25,7 @@ function App() {
           <p>A mini social media network, built as the submission for Task Option 1</p>
         </div>
       </div>
-      <div style={{ flex: 2 }} />
+      <div className='margin' />
     </div>
   );
 }

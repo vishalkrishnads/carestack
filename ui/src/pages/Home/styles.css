@@ -1,0 +1,236 @@
+.home {
+    flex: 1;
+    flex-direction: column;
+}
+
+.home>.myprofile {
+    height: 30vh;
+    display: flex;
+}
+
+.myprofile .image {
+    flex: 4;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.myprofile .image .pic {
+    background-color: #086868;
+    height: 20vh;
+    width: 20vh;
+    border-radius: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.myprofile .image .pic h1 {
+    font-size: 10vh;
+    text-shadow: 1vh 1vh 1vh grey;
+}
+
+.myprofile .margin {
+    flex: 0.5;
+}
+
+.myprofile .details {
+    flex: 5;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.myprofile .details h1 {
+    font-size: 4vh;
+}
+
+.myprofile .details h2 {
+    font-size: 2vh;
+    color: grey
+}
+
+.myprofile .details h3 {
+    font-size: 2vh;
+    color: #f44336
+}
+
+.myprofile .details h3:hover {
+    cursor: pointer;
+    font-family: 'Poppins-Bold';
+}
+
+.myprofile .details .bio {
+    background-color: #17312F;
+    color: white;
+    border: none;
+    resize: none;
+    width: 50%;
+    height: 5vh;
+    justify-self: flex-end;
+    font-family: 'Poppins';
+    margin-top: 1vh;
+}
+
+.myprofile .details .bio:focus {
+    outline: none;
+}
+
+.home > .friends {
+    min-height: 20vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.friends .head {
+    height: 5vh;
+    width: 80%;
+    display: flex;
+}
+
+.friends .list {
+    min-height: 13vh;
+    width: 70%;
+    margin-top: 2vh
+}
+
+.friends .empty {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.friends .empty p {
+    color: grey
+}
+
+.list .friend {
+    height: 8vh;
+    border-radius: 20px;
+    display: flex;
+}
+
+.list .friend:hover {
+    background-color: #054848
+
+    ;
+}
+
+.friend > .image {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.friend > .image > .pic {
+    background-color: #086868;
+    height: 5vh;
+    width: 5vh;
+    border-radius: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.friend > .image > .pic p {
+    font-size: 3vh;
+}
+
+.friend > .details {
+    flex: 6;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.friend > .details h2 {
+    font-size: 2vh;
+}
+
+.friend > .details h3 {
+    font-size: 1.5vh;
+    color: grey;
+}
+
+.friend > .actions {
+    flex: 1;
+    display: flex;
+    align-items: center;
+}
+
+.friend > .actions p {
+    font-size: 2vh;
+    color: #f44336
+}
+
+.friend > .actions p:hover {
+    cursor: pointer;
+    font-family: 'Poppins-Bold';
+}
+
+.friends .head #browse:hover {
+    cursor: pointer;
+    font-family: 'Poppins-Bold';
+}
+
+.home>.search {
+    height: 15vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Search field in home */
+
+.search>.field {
+    width: 70%;
+    height: 60px;
+    background: #D9D9D9;
+    box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    margin-top: 0%;
+    font-size: medium;
+    font-family: 'Poppins';
+    padding: 0px 20px;
+}
+
+@media only screen and (max-width: 800px) {
+    .home>.myprofile {
+        flex-direction: column;
+        height: 40vh;
+    }
+
+    .home>.friends {
+        min-height: 35vh;
+        justify-content: flex-end;
+    }
+
+    .myprofile .image {
+        justify-content: center;
+    }
+
+    .myprofile .details {
+        align-items: center;
+    }
+
+    .myprofile .details h1 {
+        margin-top: 10px;
+    }
+
+    .myprofile .details .bio {
+        text-align: center;
+    }
+
+    .friends .list {
+        width: 90%
+    }
+
+    .friends .head {
+        width: 100%;
+    }
+}

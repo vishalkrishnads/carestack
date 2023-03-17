@@ -15,12 +15,12 @@ const root = ReactDOM.createRoot(
 root.render(
   <BrowserRouter>
     <Routes>
-        <Route path='/' exact element={<App />}>
-          <Route path='/' exact element={<AuthCheck />} />
-          <Route path='/signup' exact element={<SignUp />} />
-          <Route path='/signin' exact element={<SignIn />} />
-          <Route path='/home' exact element={<Home />} />
-        </Route>
-      </Routes>
+      <Route path='/' exact element={<App />}>
+        <Route path='/' exact element={<AuthCheck />} />
+        <Route path='/signup' exact element={<SignUp />} />
+        <Route path='/signin' exact element={<SignIn />} />
+        <Route path='/home' exact element={<Home />} />
+      </Route>
+    </Routes>
   </BrowserRouter>
 );
