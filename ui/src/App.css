@@ -97,4 +97,19 @@ a {
   .App>.margin {
     flex: 0;
   }
+
+  .header,
+  .footer,
+  .content {
+    width: 90%;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+
+  .header,
+  .footer,
+  .content {
+    width: 98%;
+  }
 }
