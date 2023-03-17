@@ -99,7 +99,7 @@ const Home = () => {
         <div className='friends'>
             <div className='head'>
                 <div style={{ flex: 1, display: 'flex', alignItems: 'center' }}>
-                    <h3>Your friends</h3>
+                    <h3 id='header'>Your friends</h3>
                 </div>
                 <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
                     <h3 id='browse' onClick={() => navigate('/notfriends')} style={{ color: '#086868' }}>Browse others {'>'}</h3>

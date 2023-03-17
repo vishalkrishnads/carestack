@@ -167,4 +167,12 @@
     .friends .head {
         width: 100%;
     }
+
+    .friends .head #header {
+        margin-left: 5vw;
+    }
+
+    .friend .image {
+        margin-right: 5vw;
+    }
 }
