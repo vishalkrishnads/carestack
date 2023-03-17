@@ -48,7 +48,7 @@ const Home = () => {
                 refresh(JSON.parse(data).username);
             }
         } else {
-            alert('Sorry. The project likely wont run on this browser because its too old. Please try with a newer version.')
+            setAlert('Sorry. The project likely wont run on this browser because its too old. Please try with a newer version.')
         }
     }, [location])
 
@@ -80,7 +80,7 @@ const Home = () => {
 
     return <div className='home'>
         <div className='search'>
-            <input className='field' onClick={() => console.log('Searching')} placeholder='Search for everyone' />
+            <input className='field' onClick={() => navigate('/search')} placeholder='Search for everyone' />
         </div>
         <div className='myprofile'>
             <div className='image'>

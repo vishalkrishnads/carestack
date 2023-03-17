@@ -13,7 +13,8 @@ const Friend = ({ friend, isFriend, onAction }) => {
             <h3>{friend.username.replace(/^"|"$/g, '')}</h3>
         </div>
         <div className='actions'>
-            <p onClick={onAction} style={{ color: isFriend ? '#f44336' : '#086868' }} >{isFriend ? 'Unfriend' : 'Friend'}</p>
+            {onAction ? <p onClick={onAction} style={{ color: isFriend ? '#f44336' : '#086868' }} >{isFriend ? 'Unfriend' : 'Friend'}</p> :
+                <h4>{isFriend ? 'your friend' : ''}</h4>}
         </div>
     </div >
 }

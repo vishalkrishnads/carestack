@@ -6,6 +6,7 @@ export default {
         notfriends: '/api/notfriends',
         friend: '/api/friend',
         unfriend: '/api/unfriend',
-        getProfile: '/api/user'
+        getProfile: '/api/user',
+        search: '/api/search'
     }
 }

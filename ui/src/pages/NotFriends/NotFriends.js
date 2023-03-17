@@ -49,7 +49,6 @@ const NotFriends = () => {
             });
 
             if (response.ok) {
-                const json = await response.json();
                 setData(prevState => prevState.filter(item => item !== friend))
             } else {
                 const errorBody = await response.json();
@@ -70,7 +69,7 @@ const NotFriends = () => {
 
     return <div className='notfriends'>
         <div className='search'>
-            <input className='field' onClick={() => console.log('Searching')} placeholder='Search for everyone' />
+            <input className='field' onClick={() => navigate('/search')} placeholder='Search for everyone' />
         </div>
         <div className='thing'>
             <div className='head'>
