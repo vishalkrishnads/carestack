@@ -40,16 +40,14 @@ Alternatively, you can view the already running version right from your browser 
 ### Prerequisites
 * The Rust toolchain, including cargo: Install from [here](https://www.rust-lang.org/tools/install) by downloading the `rustup-init` executable for your platform. Alternatively, download & run the standalone installer for your platform from the links provided [here](https://forge.rust-lang.org/infra/other-installation-methods.html#standalone-installers).
 * Git CLI: Install by running the executable for your platform available [here](https://git-scm.com/downloads).
-* Node.js (v18.x.x preferred): Download the installer for your platform [here](https://nodejs.org/en).
-
-   > **Note**
-   > on Linux, you can run `apt install nodejs`, but it usually installs an older version, which will most likely have problems running this codebase. So, it'd be better to avoid it. You can always check the installed version using `npm -v`.
-
 * MongoDB Community Server: After running the installer found [here](https://www.mongodb.com/try/download/community), make sure that the server is up and running on port **27017**. 
 
     > **Note**
     > 27017 is of course the default port that it'd be running on. If you somehow end up running it on a different port, make sure to keep it in mind when running the code later as some changes would be required.
+* **Optional** - Node.js (v18.x.x preferred): Download the installer for your platform [here](https://nodejs.org/en).
 
+   > **Note**
+   > on Linux, you can run `apt install nodejs`, but it usually installs an older version, which will most likely have problems running this codebase. So, it'd be better to avoid it. You can always check the installed version using `npm -v`.
 ### Build & Run
 After making sure that all prerequisites are satisfied, follow the steps one by one to build and run the code.
 1. Either clone this repo
@@ -83,6 +81,11 @@ After making sure that all prerequisites are satisfied, follow the steps one by 
     > ```
     
     At this point, a UI will be served on port **7878**, which you can view by visiting [localhost:7878](http://localhost:7878) on your browser. But, do note that this UI is buggy when refreshed due to it being served from the API server directly. If you want to see the same UI from the [live version](https://carestack.selseus.com), continue along.
+
+> **Note**
+>
+> If you haven't installed Node.js, open up the [`/ui/build/index.html`](https://github.com/vishalkrishnads/carestack/blob/docs/ui/build/index.html) in your browser by double clicking it. This is the final UI. You can skip steps 3 & 4.
+
 3. Install all JavaScript dependencies
 
     ```
