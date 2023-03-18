@@ -3,12 +3,12 @@
 
 A mini social network, where users can join, search for others, friend and unfriend each other. This application is written in a way that it's easily extensible in terms of functionality. All you have to do is write a new function for the database transaction you have to do and simply extend the UI around it. Read more about what's already working in [features](#features).
 
-**🎉 A deployment is already live [here](https://carestack.selseus.com)!**
+**🎉 A deployment is live [here](https://carestack.selseus.com)!**
 
 ## Table Of Contents
 1. [Tech Stack](#tech-stack)
 2. [Features](#features)
-3. Installation
+3. [Installation](#installation)
 4. Web API
 5. Known Issues
 
@@ -31,3 +31,67 @@ The application currently includes the following features in fully working forma
 * View other users' profiles & make them friends/unfriend them
 * View a list of mutual friends between users. 
   *A mutual friend is a user who is a friend of two other users who may or may not know each other*
+
+## Installation
+The steps for running this code on your machine locally assumes that you have all the prerequisites set up and running. If you face any issues, please refer to the respective documentations of the components for help.
+
+Alternatively, you can view the already running version right from your browser by visiting the deployment [here](https://carestack.selseus.com)!
+
+### Prerequisites
+* The Rust toolchain, including cargo: Install from [here](https://www.rust-lang.org/tools/install) by downloading the `rustup-init` executable for your platform. Alternatively, download & run the standalone installer for your platform from the links provided [here](https://forge.rust-lang.org/infra/other-installation-methods.html#standalone-installers).
+* Git CLI: Install by running the executable for your platform available [here](https://git-scm.com/downloads).
+* Node.js (v18.x.x preferred): Download the installer for your platform [here](https://nodejs.org/en).
+
+   > **Note**
+   > on Linux, you can run `apt install nodejs`, but it usually installs an older version, which will most likely have problems running this codebase. So, it'd be better to avoid it. You can always check the installed version using `npm -v`.
+
+* MongoDB Community Server: After running the installer found [here](https://www.mongodb.com/try/download/community), make sure that the server is up and running on port **27017**. 
+
+    > **Note**
+    > 27017 is of course the default port that it'd be running on. If you somehow end up running it on a different port, make sure to keep it in mind when running the code later as some changes would be required.
+
+### Build & Run
+After making sure that all prerequisites are satisfied, follow the steps one by one to build and run the code.
+1. Either clone this repo
+
+    ```
+    git clone https://github.com/vishalkrishnads/carestack.git
+    ```
+   or make a new directory and pull the code
+  
+    ```
+    mkdir carestack && cd carestack
+    git init
+    git remote add origin https://github.com/vishalkrishnads/carestack.git
+    git pull origin main
+    ```
+2. Start the API server
+
+    ```
+    cargo run
+    ```
+    > **Note**
+    > If your MongoDB server is running on a different port, here's where you'll have to make a change to reflect it. Before executing `cargo run`, open up [`/src/main.rs` on line 122](https://github.com/vishalkrishnads/carestack/blob/docs/src/main.rs#L122), and change the `db_port` variable to your new port value.
+    > ```rust
+    > #[actix_web::main]
+    > async fn main() -> std::io::Result<()> {
+    >     let server_port = 7878;
+    >     let db_port = 27017; // change to your port number
+    >
+    >     // rest of main()
+    > }
+    > ```
+    
+    At this point, a UI will be served on port **7878**, which you can view by visiting [localhost:7878](http://localhost:7878) on your browser. But, do note that this UI is buggy when refreshed due to it being served from the API server directly. If you want to see the same UI from the [live version](https://carestack.selseus.com), continue along.
+3. Install all JavaScript dependencies
+
+    ```
+    cd ui && npm install
+    ```
+4. Start the UI development server
+
+    ```
+    npm start
+    ```
+
+The final UI will now be served on port **3000**, which you can view by visiting [localhost:3000](http://localhost:3000) in your browser. That's it, happy viewing! :beers:
