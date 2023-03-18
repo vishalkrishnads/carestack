@@ -119,7 +119,7 @@ async fn update_bio(context: web::Data<Manager>, req_body: String) -> impl Respo
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     let server_port = 7878;
-    let db_port = 8080;
+    let db_port = 27017;
 
     let mut client_options = ClientOptions::parse(format!("mongodb://localhost:{}/", db_port))
         .await
