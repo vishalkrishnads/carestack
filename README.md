@@ -9,8 +9,7 @@ A mini social network, where users can join, search for others, friend and unfri
 1. [Tech Stack](#tech-stack)
 2. [Features](#features)
 3. [Installation](#installation)
-4. Web API
-5. Known Issues
+4. [Known Issues](#known-issues)
 
 ## Tech Stack
 This is a web app. As it should be obvious, there are two main components to the application: front-end & back-end. This section details about the choices made in the implementation of both, about what tools and/or frameworks were used and why. This structure was adopted so as to enable easy extensibility for future development.
@@ -98,3 +97,8 @@ After making sure that all prerequisites are satisfied, follow the steps one by 
     ```
 
 The final UI will now be served on port **3000**, which you can view by visiting [localhost:3000](http://localhost:3000) in your browser. That's it, happy viewing! :beers:
+
+## Known Issues
+* In the UI served from the API server, there is a problem when refreshing the UI manually. As the React app uses [React Router](https://reactrouter.com/) to render the content, the server fails to effectively propogate the URL to it thereby causing it to crash randomly. However, this has been resolved in the bare version as well as in the [live deployment](https://carestack.selseus.com) using Nginx to propogate the URL.
+* The code quality of the front-end itself is another issue. There are many places where a lot of refactoring could be done to reduce code size and improve code quality. For instance, the networking code and `localStorage` code could be refactored and reused.
+* In a production environment, the app is not secure because it lacks data encryption during transit. Only the standard HTTPS encryption is present. This has happened because of the fast paced development of the stack.
