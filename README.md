@@ -1,9 +1,11 @@
 # CareStack
-> This repo is the test submission for an internship role at [CareStack](https://carestack.com). 
+> :warning: This repo is the test submission for an internship role at [CareStack](https://carestack.com). 
 
 A mini social network, where users can join, search for others, friend and unfriend each other. This application is written in a way that it's easily extensible in terms of functionality. All you have to do is write a new function for the database transaction you have to do and simply extend the UI around it. Read more about what's already working in [features](#features).
 
-**🎉 A deployment is live [here](https://carestack.selseus.com)!**
+**🎉 A deployment is live [here](https://carestack.selseus.com)!** You can also view a screen recorded video below...
+
+https://user-images.githubusercontent.com/50231856/226114647-0f929238-9c9f-4b8c-889e-1fb1e0395eaf.mp4
 
 ## Table Of Contents
 1. [Tech Stack](#tech-stack)
