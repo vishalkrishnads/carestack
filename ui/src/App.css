@@ -1,38 +1,115 @@
-.App {
-  text-align: center;
+@font-face {
+  font-family: "Poppins";
+  src: local("Poppins"),
+    url("./fonts/Poppins-Regular.ttf") format("truetype");
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+@font-face {
+  font-family: "Poppins-Bold";
+  src: local("Poppins-Bold"),
+    url("./fonts/Poppins-Bold.ttf") format("truetype");
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+body {
+  margin: 0px;
+  font-family: 'Poppins';
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+h1,
+h2,
+h3,
+h4 {
+  margin-block: 0em;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+a {
+  text-decoration: none;
+  color: #086868;
+  font-weight: bold;
+}
+
+.App {
+  text-align: center;
+  background-color: #17312F;
+  height: 100vh;
+  display: flex;
+  flex-direction: row;
+  overflow: hidden;
+}
+
+.App>.margin {
+  flex: 2
+}
+
+.header,
+.footer,
+.content {
+  position: absolute;
+  width: 70%
+}
+
+.header {
+  height: 100px;
+  top: 0;
+  display: flex;
+}
+
+.footer {
+  height: 50px;
+  bottom: 0;
+}
+
+.footer p {
+  font-size: small;
+  margin-bottom: 5px;
+}
+
+.content {
+  top: 100px;
+  bottom: 50px;
+  display: flex;
+  overflow: auto;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px #17312F;
+  border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #086868;
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #054747;
+}
+
+@media only screen and (max-width: 800px) {
+  .App>.margin {
+    flex: 0;
   }
-  to {
-    transform: rotate(360deg);
+
+  .header,
+  .footer,
+  .content {
+    width: 90%;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+
+  .header,
+  .footer,
+  .content {
+    width: 98%;
   }
 }

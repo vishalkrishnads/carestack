@@ -1,0 +1,153 @@
+.picker {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.prompt {
+    background-color: #285753;
+    border-radius: 20px;
+    height: 70vh;
+    width: 30vw;
+    display: flex;
+    flex-direction: column;
+}
+
+.prompt>.titlebar {
+    flex: 1;
+    display: flex;
+}
+
+.prompt>.titlebar h3 {
+    font-size: 2vh;
+}
+
+.prompt>.titlebar h2 {
+    font-size: 5vh;
+    font-weight: 200;
+    color: grey;
+}
+
+.prompt>.titlebar h2:hover {
+    color: red;
+    cursor: pointer;
+}
+
+.prompt>.searchbar {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.prompt>.searchbar>.mediumsearch {
+    height: 5vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.searchbar>.mediumsearch {
+    width: 70%;
+    height: 60px;
+    background: #D9D9D9;
+    box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    margin-top: 0%;
+    font-size: 2vh;
+    font-family: 'Poppins';
+    padding: 0px 20px;
+}
+
+
+.prompt>.options {
+    flex: 6;
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    overflow: auto;
+}
+
+.prompt>.options>.option {
+    min-height: 8vh;
+    border-radius: 20px;
+    display: flex;
+}
+
+.prompt>.options>.option>.image {
+    flex: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.prompt>.options>.option>.image>.circle {
+    background-color: #D9D9D9;
+    color: #086868;
+    height: 5vh;
+    width: 5vh;
+    border-radius: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.prompt>.options>.option>.image>.circle p {
+    font-size: 3vh;
+}
+
+.prompt>.options>.option>.details {
+    flex: 8;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.prompt>.options>.option>.details h2 {
+    font-size: 2vh;
+}
+
+.prompt>.options>.option>.details h3 {
+    font-size: 1.5vh;
+    color: grey
+}
+
+.prompt>.options>.option:hover {
+    background-color: #054848;
+}
+
+@media only screen and (max-width: 1200px) {
+    .prompt {
+        width: 60vw;
+        height: 60vh;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .prompt>.titlebar h3 {
+        font-size: 1.5vh;
+    }
+
+    .searchbar>.mediumsearch {
+        font-size: 1.5vh;
+    }
+}
+
+@media only screen and (max-width: 500px) {
+    .prompt {
+        width: 80vw
+    }
+
+    .prompt>.options>.option>.margin {
+        flex: 1
+    }
+}

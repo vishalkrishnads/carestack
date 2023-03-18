@@ -1,0 +1,59 @@
+.signup {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.signup > .box {
+    width: 100%;
+}
+
+.signup h1 {
+    font-size: xx-large;
+}
+
+.signup h2 {
+    font-size: x-large;
+}
+
+@media only screen and (max-width: 1600px) {
+    .signup h1 {
+        font-size: x-large;
+    }
+    .signup h2 {
+        font-size: large;
+    }
+}
+
+@media only screen and (max-width: 1200px) {
+    .signup h1 {
+        font-size: x-large;
+    }
+    .signup h2 {
+        font-size: large;
+    }
+}
+
+/* @media only screen and (max-width: 1000px) {
+    .signup h1 {
+        width: 40%;
+    }
+}
+
+@media only screen and (max-width: 800px) {
+    .signup h1 {
+        width: 70%;
+    }
+} */
+
+@media only screen and (max-width: 500px) {
+    .signup h2 {
+        font-size: medium;
+    }
+
+    .signup > .box {
+        width: 80%;
+    }
+}

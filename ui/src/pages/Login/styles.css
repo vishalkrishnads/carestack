@@ -1,0 +1,47 @@
+.login {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.login>.box {
+    width: 100%;
+}
+
+.login h1 {
+    font-size: xx-large;
+}
+
+.login h2 {
+    font-size: x-large;
+}
+
+@media only screen and (max-width: 1600px) {
+    .login h1 {
+        font-size: x-large;
+    }
+    .login h2 {
+        font-size: large;
+    }
+}
+
+@media only screen and (max-width: 1200px) {
+    .login h1 {
+        font-size: x-large;
+    }
+    .login h2 {
+        font-size: large;
+    }
+}
+
+@media only screen and (max-width: 500px) {
+    .login h2 {
+        font-size: medium;
+    }
+
+    .login > .box {
+        width: 80%;
+    }
+}

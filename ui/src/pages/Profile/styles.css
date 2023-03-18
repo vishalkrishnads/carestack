@@ -1,0 +1,172 @@
+.profile {
+    flex: 1;
+    flex-direction: column;
+}
+
+.profile>.user {
+    height: 30vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.profile>.user>.image {
+    flex: 4;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.profile>.user>.image>.pic {
+    background-color: #086868;
+    height: 20vh;
+    width: 20vh;
+    border-radius: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.profile>.user>.image>.pic h1 {
+    font-size: 10vh;
+    text-shadow: 1vh 1vh 1vh grey;
+}
+
+.profile .margin {
+    flex: 0.5;
+}
+
+.profile .details {
+    flex: 5;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.profile .details h1 {
+    font-size: 4vh;
+}
+
+.profile>.user>.details h2 {
+    font-size: 2vh;
+    color: grey
+}
+
+.profile>.user>.details h3 {
+    font-size: 2vh;
+}
+
+.profile .details h3:hover {
+    cursor: pointer;
+    font-family: 'Poppins-Bold';
+}
+
+.profile .details .bio {
+    background-color: #17312F;
+    color: white;
+    border: none;
+    resize: none;
+    width: 50%;
+    height: 5vh;
+    justify-self: flex-end;
+    font-family: 'Poppins';
+    margin-top: 1vh;
+}
+
+.profile .details .bio:focus {
+    outline: none;
+}
+
+.profile > .friends {
+    min-height: 20vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.friends .head {
+    height: 5vh;
+    width: 80%;
+    display: flex;
+}
+
+.friends .list {
+    min-height: 13vh;
+    width: 70%;
+    margin-top: 2vh
+}
+
+.friends .empty {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.friends .empty p {
+    color: grey
+}
+
+.profile>.search {
+    height: 15vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Search field in home */
+
+.search>.field {
+    width: 70%;
+    height: 60px;
+    background: #D9D9D9;
+    box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    margin-top: 0%;
+    font-size: medium;
+    font-family: 'Poppins';
+    padding: 0px 20px;
+}
+
+@media only screen and (max-width: 800px) {
+    .profile>.user {
+        flex-direction: column;
+        height: 40vh;
+    }
+
+    .profile .image {
+        justify-content: center;
+    }
+
+    .profile>.user>.details {
+        align-items: center;
+    }
+
+    .profile .details h1 {
+        margin-top: 10px;
+    }
+
+    .profile .details .bio {
+        text-align: center;
+    }
+
+    .friends .list {
+        width: 90%
+    }
+
+    .friends .head {
+        width: 100%;
+    }
+
+    .friends .head #header {
+        font-size: 15px;
+        margin-left: 5vw
+    }
+
+    .friends .head #browse {
+        font-size: 15px;
+        margin-right: 5vw;
+    }
+    
+}

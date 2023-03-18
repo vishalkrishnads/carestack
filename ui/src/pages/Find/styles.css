@@ -1,0 +1,41 @@
+.find {
+    flex: 1;
+    flex-direction: column;
+}
+
+.find>.search {
+    height: 15vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.find>.thing {
+    min-height: 65vh;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.find>.thing>.head {
+    height: 5vh;
+    width: 80%;
+    display: flex;
+    align-items: center;
+}
+
+.find .list {
+    min-height: 60vh;
+    width: 70%;
+    margin-top: 2vh;
+}
+
+.find .empty {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.find .empty p {
+    color: grey
+}
