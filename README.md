@@ -68,7 +68,7 @@ After making sure that all prerequisites are satisfied, follow the steps one by 
     cargo run
     ```
     > **Note**
-    > If your MongoDB server is running on a different port, here's where you'll have to make a change to reflect it. Before executing `cargo run`, open up [`/src/main.rs` on line 122](https://github.com/vishalkrishnads/carestack/blob/docs/src/main.rs#L122), and change the `db_port` variable to your new port value.
+    > If your MongoDB server is running on a different port, here's where you'll have to make a change to reflect it. Before executing `cargo run`, open up [`/src/main.rs` on line 122](https://github.com/vishalkrishnads/carestack/blob/main/src/main.rs#L122), and change the `db_port` variable to your new port value.
 
     > ```rust
     > #[actix_web::main]
@@ -80,7 +80,7 @@ After making sure that all prerequisites are satisfied, follow the steps one by 
     > }
     > ```
 
-The app will now be served on port **7878**, which you can view by visiting [localhost:7878](http://localhost:7878) in your browser. You can also change the port at which it's being served by setting it to `server_port` in [`/src/main.rs` on line 126](https://github.com/vishalkrishnads/carestack/blob/docs/src/main.rs#L126). That's it, happy viewing! :beers:
+The app will now be served on port **7878**, which you can view by visiting [localhost:7878](http://localhost:7878) in your browser. You can also change the port at which it's being served by setting it to `server_port` in [`/src/main.rs` on line 126](https://github.com/vishalkrishnads/carestack/blob/main/src/main.rs#L126). That's it, happy viewing! :beers:
 
 ## Known Issues
 * The code quality of the front-end itself is another issue. There are many places where a lot of refactoring could be done to reduce code size and improve code quality. For instance, the networking code and `localStorage` code could be refactored and reused.
