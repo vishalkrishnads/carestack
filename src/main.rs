@@ -123,8 +123,8 @@ async fn index() -> impl Responder {
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    let server_port = 7878;
-    let db_port = 8080;
+    let server_port = 7878; // change port here to serve app via it
+    let db_port = 27017; // change the port here to point to your MongoDB server
 
     let mut client_options = ClientOptions::parse(format!("mongodb://localhost:{}/", db_port))
         .await
