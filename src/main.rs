@@ -116,10 +116,15 @@ async fn update_bio(context: web::Data<Manager>, req_body: String) -> impl Respo
     }
 }
 
+#[get("/{filename:.*}")]
+async fn index() -> impl Responder {
+    fs::NamedFile::open_async("./ui/build/index.html").await
+}
+
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     let server_port = 7878;
-    let db_port = 27017;
+    let db_port = 8080;
 
     let mut client_options = ClientOptions::parse(format!("mongodb://localhost:{}/", db_port))
         .await
@@ -148,7 +153,7 @@ async fn main() -> std::io::Result<()> {
             .service(unfriend)
             .service(mutual)
             .service(update_bio)
-            .service(fs::Files::new("/", "./ui/build").index_file("index.html"))
+            .service(index)
     })
     .bind(("127.0.0.1", server_port))?
     .run()
