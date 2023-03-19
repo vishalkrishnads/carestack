@@ -45,16 +45,14 @@ Alternatively, you can view the already running version right from your browser 
 
     > **Note**
     > 27017 is of course the default port that it'd be running on. If you somehow end up running it on a different port, make sure to keep it in mind when running the code later as some changes would be required.
-* **Optional** - Node.js (v18.x.x preferred): Download the installer for your platform [here](https://nodejs.org/en).
 
-   > **Note**
-   > on Linux, you can run `apt install nodejs`, but it usually installs an older version, which will most likely have problems running this codebase. So, it'd be better to avoid it. You can always check the installed version using `npm -v`.
 ### Build & Run
 After making sure that all prerequisites are satisfied, follow the steps one by one to build and run the code.
 1. Either clone this repo
 
     ```
     git clone https://github.com/vishalkrishnads/carestack.git
+    cd carestack
     ```
    or make a new directory and pull the code
   
@@ -71,6 +69,7 @@ After making sure that all prerequisites are satisfied, follow the steps one by 
     ```
     > **Note**
     > If your MongoDB server is running on a different port, here's where you'll have to make a change to reflect it. Before executing `cargo run`, open up [`/src/main.rs` on line 122](https://github.com/vishalkrishnads/carestack/blob/docs/src/main.rs#L122), and change the `db_port` variable to your new port value.
+
     > ```rust
     > #[actix_web::main]
     > async fn main() -> std::io::Result<()> {
@@ -80,27 +79,9 @@ After making sure that all prerequisites are satisfied, follow the steps one by 
     >     // rest of main()
     > }
     > ```
-    
-    At this point, a UI will be served on port **7878**, which you can view by visiting [localhost:7878](http://localhost:7878) on your browser. But, do note that this UI is buggy when refreshed due to it being served from the API server directly. If you want to see the same UI from the [live version](https://carestack.selseus.com), continue along.
 
-> **Note**
->
-> If you haven't installed Node.js, open up the [`/ui/build/index.html`](https://github.com/vishalkrishnads/carestack/blob/docs/ui/build/index.html) in your browser by double clicking it. This is the final UI. You can skip steps 3 & 4.
-
-3. Install all JavaScript dependencies
-
-    ```
-    cd ui && npm install
-    ```
-4. Start the UI development server
-
-    ```
-    npm start
-    ```
-
-The final UI will now be served on port **3000**, which you can view by visiting [localhost:3000](http://localhost:3000) in your browser. That's it, happy viewing! :beers:
+The app will now be served on port **7878**, which you can view by visiting [localhost:7878](http://localhost:7878) in your browser. You can also change the port at which it's being served by setting it to `server_port` in [`/src/main.rs` on line 126](https://github.com/vishalkrishnads/carestack/blob/docs/src/main.rs#L126). That's it, happy viewing! :beers:
 
 ## Known Issues
-* In the UI served from the API server, there is a problem when refreshing the UI manually. As the React app uses [React Router](https://reactrouter.com/) to render the content, the server fails to effectively propogate the URL to it thereby causing it to crash randomly. However, this has been resolved in the bare version as well as in the [live deployment](https://carestack.selseus.com) using Nginx to propogate the URL.
 * The code quality of the front-end itself is another issue. There are many places where a lot of refactoring could be done to reduce code size and improve code quality. For instance, the networking code and `localStorage` code could be refactored and reused.
 * In a production environment, the app is not secure because it lacks data encryption during transit. Only the standard HTTPS encryption is present. This has happened because of the fast paced development of the stack.
